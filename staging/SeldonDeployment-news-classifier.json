@@ -1,120 +1,43 @@
 {
-    "kind": "SeldonDeployment",
-    "apiVersion": "machinelearning.seldon.io/v1alpha2",
-    "metadata": {
-        "name": "news-classifier",
-        "namespace": "staging",
-        "creationTimestamp": null
+  "apiVersion": "machinelearning.seldon.io/v1alpha2",
+  "kind": "SeldonDeployment",
+  "metadata": { "name": "news-classifier" },
+  "spec": {
+    "annotations": {
+      "seldon.io/engine-seldon-log-messages-externally": "true"
     },
-    "spec": {
-        "name": "news-classifier",
-        "predictors": [
-            {
-                "name": "default",
-                "graph": {
-                    "name": "default",
-                    "type": "UNKNOWN_TYPE",
-                    "implementation": "SKLEARN_SERVER",
-                    "endpoint": {
-                        "service_host": "localhost",
-                        "service_port": 9000,
-                        "type": "REST"
-                    },
-                    "parameters": [
-                        {
-                            "name": "method",
-                            "value": "predict",
-                            "type": "STRING"
-                        }
-                    ],
-                    "modelUri": "gs://news_classifier/model"
-                },
-                "componentSpecs": [
-                    {
-                        "metadata": {
-                            "creationTimestamp": null
-                        },
-                        "spec": {
-                            "containers": [
-                                {
-                                    "name": "default",
-                                    "image": "seldonio/sklearnserver_rest:0.2",
-                                    "env": [
-                                        {
-                                            "name": "SELDON_LOG_LEVEL",
-                                            "value": "DEBUG"
-                                        }
-                                    ],
-                                    "resources": {},
-                                    "volumeMounts": [
-                                        {
-                                            "name": "podinfo",
-                                            "mountPath": "/etc/podinfo"
-                                        }
-                                    ]
-                                }
-                            ],
-                            "terminationGracePeriodSeconds": 1
-                        }
-                    }
-                ],
-                "replicas": 1,
-                "engineResources": {},
-                "labels": {
-                    "version": "default"
-                },
-                "svcOrchSpec": {},
-                "traffic": 90,
-                "explainer": {
-                    "containerSpec": {
-                        "name": "",
-                        "resources": {}
-                    }
+    "name": "news-classifier",
+    "predictors": [
+      {
+        "componentSpecs": [
+          {
+            "spec": {
+              "containers": [
+                {
+                  "env": [{ "name": "SELDON_LOG_LEVEL", "value": "DEBUG" }],
+                  "name": "default"
                 }
-            },
-            {
-                "name": "canary",
-                "graph": {
-                    "name": "news-classifier-canary",
-                    "implementation": "SKLEARN_SERVER",
-                    "endpoint": {
-                        "type": "REST"
-                    },
-                    "modelUri": "gs://news_classifier/model"
-                },
-                "componentSpecs": [
-                    {
-                        "metadata": {
-                            "creationTimestamp": "2020-01-23T16:55:38Z"
-                        },
-                        "spec": {
-                            "containers": [
-                                {
-                                    "name": "news-classifier-canary",
-                                    "resources": {}
-                                }
-                            ]
-                        }
-                    }
-                ],
-                "replicas": 1,
-                "annotations": {
-                    "seldon.io/canary": "true"
-                },
-                "engineResources": {},
-                "svcOrchSpec": {},
-                "traffic": 10,
-                "explainer": {
-                    "containerSpec": {
-                        "name": "",
-                        "resources": {}
-                    }
-                }
+              ],
+              "terminationGracePeriodSeconds": 1
             }
+          }
         ],
-        "annotations": {
-            "seldon.io/engine-seldon-log-messages-externally": "true"
-        }
-    },
-    "status": {}
+        "engineResources": {},
+        "explainer": { "containerSpec": { "name": "", "resources": {} } },
+        "graph": {
+          "children": [],
+          "implementation": "SKLEARN_SERVER",
+          "modelUri": "gs://news_classifier/model",
+          "name": "default",
+          "parameters": [
+            { "name": "method", "type": "STRING", "value": "predict" }
+          ]
+        },
+        "name": "default",
+        "replicas": 1,
+        "svcOrchSpec": {},
+        "traffic": 105
+      }
+    ]
+  }
 }
