@@ -27,7 +27,7 @@
         "graph": {
           "children": [],
           "implementation": "SKLEARN_SERVER",
-          "modelUri": "gs://news_classifier/model",
+          "modelUri": "gs://news_classifier/model-v2",
           "name": "default",
           "parameters": [
             { "name": "method", "type": "STRING", "value": "predict" }
@@ -36,7 +36,7 @@
         "name": "default",
         "replicas": 1,
         "svcOrchSpec": {},
-        "traffic": 105
+        "traffic": 100
       }
     ]
   }
